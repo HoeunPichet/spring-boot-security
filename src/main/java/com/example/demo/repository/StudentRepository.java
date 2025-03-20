@@ -9,8 +9,8 @@ import java.util.List;
 public interface StudentRepository {
 
     @Select("""
-            select * from students
-            offset #{limit} * (#{offset} - 1) limit #{limit}
+            SELECT * FROM students
+            OFFSET #{limit} * (#{offset} - 1) LIMIT #{limit}
             """)
     @Results(id ="studentMapping", value = {
             @Result(property = "studentId", column = "student_id"),
@@ -24,8 +24,8 @@ public interface StudentRepository {
 
 
     @Select("""
-            select * from students
-            where student_id = #{id}
+            SELECT * FROM students
+            WHERE student_id = #{id}
             """)
     @ResultMap("studentMapping")
     Student findStudentById(Integer id);

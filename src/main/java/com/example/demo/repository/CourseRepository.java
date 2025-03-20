@@ -9,8 +9,8 @@ import java.util.List;
 public interface CourseRepository {
 
     @Select("""
-            select * from courses
-            offset #{limit} * (#{offset} - 1) limit #{limit}
+            SELECT * FROM courses
+            OFFSET #{limit} * (#{offset} - 1) LIMIT #{limit}
             """)
     @Results(id ="courseMapping", value = {
         @Result(property = "courseId", column = "course_id"),
@@ -24,17 +24,17 @@ public interface CourseRepository {
 
 
     @Select("""
-            select * from courses
-            where course_id = #{id}
+            SELECT * FROM courses
+            WHERE course_id = #{id}
             """)
     @ResultMap("courseMapping")
     Course findCourseById(Integer id);
 
 
     @Select("""
-            select c.* from student_course sc
-            inner join courses c on sc.course_id = c.course_id
-            where sc.student_id = #{id}
+            SELECT c.* FROM student_course sc
+            INNER JOIN courses c ON sc.course_id = c.course_id
+            WHERE sc.student_id = #{id}
             """)
     @ResultMap("courseMapping")
     List<Course> getCoursesByStudentId(Integer id);

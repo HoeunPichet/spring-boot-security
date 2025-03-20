@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.model.dto.request.InstructorRequest;
 import com.example.demo.model.entity.Instructor;
 import org.apache.ibatis.annotations.*;
 
@@ -9,8 +10,8 @@ import java.util.List;
 public interface InstructorRepository {
 
     @Select("""
-            select * from instructors
-            offset #{limit} * (#{offset} - 1) limit #{limit}
+            SELECT * FROM instructors
+            OFFSET #{limit} * (#{offset} - 1) LIMIT #{limit}
             """)
     @Results(id = "instructorMapping", value = {
         @Result(property = "instructorId", column = "instructor_id"),
@@ -20,16 +21,37 @@ public interface InstructorRepository {
 
 
     @Select("""
-            select * from instructors
-            where instructor_id = #{id}
+            SELECT * FROM instructors
+            WHERE instructor_id = #{id}
             """)
     @ResultMap("instructorMapping")
     Instructor findInstructorById(Integer id);
 
+
     @Select("""
-            delete from instructors
-            where instructor_id = #{id}
-            returning *
+            INSERT INTO instructors(instructor_name, email)
+            VALUES (#{instructor.instructorName}, #{instructor.email})
+            RETURNING *
+            """)
+    @ResultMap("instructorMapping")
+    Instructor insertInstructor(@Param("instructor") InstructorRequest instructorRequest);
+
+
+    @Select("""
+            UPDATE instructors
+            SET instructor_name = #{instructor.instructorName},
+                email = #{instructor.email}
+            WHERE instructor_id = #{id}
+            RETURNING *
+            """)
+    @ResultMap("instructorMapping")
+    Instructor updateInstructor(Integer id, @Param("instructor") InstructorRequest instructorRequest);
+
+
+    @Select("""
+            DELETE FROM instructors
+            WHERE instructor_id = #{id}
+            RETURNING *
             """)
     @ResultMap("instructorMapping")
     Instructor deleteInstructorById(Integer id);
