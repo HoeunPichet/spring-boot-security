@@ -25,4 +25,12 @@ public interface InstructorRepository {
             """)
     @ResultMap("instructorMapping")
     Instructor findInstructorById(Integer id);
+
+    @Select("""
+            delete from instructors
+            where instructor_id = #{id}
+            returning *
+            """)
+    @ResultMap("instructorMapping")
+    Instructor deleteInstructorById(Integer id);
 }
