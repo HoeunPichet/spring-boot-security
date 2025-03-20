@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.dto.response.ApiResponse;
-import com.example.demo.model.entity.Course;
 import com.example.demo.model.entity.Instructor;
 import com.example.demo.service.InstructorService;
 import org.springframework.http.HttpStatus;

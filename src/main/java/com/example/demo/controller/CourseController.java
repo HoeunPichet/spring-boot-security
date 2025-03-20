@@ -3,13 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.model.dto.response.ApiResponse;
 import com.example.demo.model.entity.Course;
 import com.example.demo.service.CourseService;
-import com.example.demo.service.implementation.CourseServiceImp;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +24,19 @@ public class CourseController {
         ApiResponse<List<Course>> response = ApiResponse.<List<Course>>builder()
                 .message("Get all courses successfully!")
                 .payload(courses)
+                .status(HttpStatus.OK)
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{course-id}")
+    public ResponseEntity<ApiResponse<Course>> findCourseById(@PathVariable("course-id") Integer courseId) {
+        Course course = courseService.findCourseById(courseId);
+
+        ApiResponse<Course> response = ApiResponse.<Course>builder()
+                .message("Course has been found successfully!")
+                .payload(course)
                 .status(HttpStatus.OK)
                 .build();
 

@@ -17,4 +17,9 @@ public class CourseServiceImp implements CourseService {
     public List<Course> getAllCourses(Integer offset, Integer limit) {
         return courseRepository.getAllCourses(offset, limit);
     }
+
+    @Override
+    public Course findCourseById(Integer id) {
+        return courseRepository.findCourseById(id);
+    }
 }

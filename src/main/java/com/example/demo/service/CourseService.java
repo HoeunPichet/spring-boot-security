@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface CourseService {
     List<Course> getAllCourses(Integer offset, Integer limit);
+    Course findCourseById(Integer id);
 }
