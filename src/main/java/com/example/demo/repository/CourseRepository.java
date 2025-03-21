@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.model.dto.request.CourseRequest;
 import com.example.demo.model.entity.Course;
 import org.apache.ibatis.annotations.*;
 
@@ -15,7 +16,6 @@ public interface CourseRepository {
     @Results(id ="courseMapping", value = {
         @Result(property = "courseId", column = "course_id"),
         @Result(property = "courseName", column = "course_name"),
-        @Result(property = "courseId", column = "course_id"),
         @Result(property = "instructor", column = "instructor_id",
             one = @One(select = "com.example.demo.repository.InstructorRepository.findInstructorById")
         ),
@@ -38,4 +38,35 @@ public interface CourseRepository {
             """)
     @ResultMap("courseMapping")
     List<Course> getCoursesByStudentId(Integer id);
+
+
+    @Select("""
+            INSERT INTO courses(course_name, description, instructor_id)
+            VALUES(#{course.courseName}, #{course.description}, #{course.instructorId})
+            RETURNING *
+            """)
+    @ResultMap("courseMapping")
+    Course insertCourse(@Param("course") CourseRequest courseRequest);
+
+
+    @Select("""
+            UPDATE courses
+            SET course_name = #{course.courseName},
+                description = #{course.description},
+                instructor_id = #{course.instructorId}
+            WHERE course_id = #{id}
+            RETURNING *
+            """)
+    @ResultMap("courseMapping")
+    Course updateCourseById(Integer id, @Param("course") CourseRequest courseRequest);
+
+
+    @Select("""
+            DELETE FROM courses
+            WHERE course_id = #{id}
+            RETURNING *
+            """)
+    @ResultMap("courseMapping")
+    Course deleteCourseById(Integer id);
+
 }

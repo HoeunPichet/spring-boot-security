@@ -1,5 +1,6 @@
 package com.example.demo.service.implementation;
 
+import com.example.demo.model.dto.request.CourseRequest;
 import com.example.demo.model.entity.Course;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.service.CourseService;
@@ -21,5 +22,20 @@ public class CourseServiceImp implements CourseService {
     @Override
     public Course findCourseById(Integer id) {
         return courseRepository.findCourseById(id);
+    }
+
+    @Override
+    public Course insertCourse(CourseRequest courseRequest) {
+        return courseRepository.insertCourse(courseRequest);
+    }
+
+    @Override
+    public Course updateCourse(Integer courseId, CourseRequest courseRequest) {
+        return courseRepository.updateCourseById(courseId, courseRequest);
+    }
+
+    @Override
+    public Course deleteCourseById(Integer courseId) {
+        return courseRepository.deleteCourseById(courseId);
     }
 }
