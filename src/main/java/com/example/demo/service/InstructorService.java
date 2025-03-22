@@ -9,8 +9,7 @@ import java.util.List;
 public interface InstructorService {
     List<Instructor> getAllInstructors(Integer offset, Integer limit);
     Instructor findInstructorById(Integer id);
-    Instructor deleteInstructorById(Integer id);
-    Instructor insertInstructor(InstructorRequest instructorRequest);
-
+    Instructor insertInstructor(@Valid InstructorRequest instructorRequest);
     Instructor updateInstructor(Integer instructorId, @Valid InstructorRequest instructorRequest);
+    Instructor deleteInstructorById(Integer id);
 }

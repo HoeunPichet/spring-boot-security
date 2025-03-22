@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.dto.request.StudentRequest;
 import com.example.demo.model.dto.response.ApiResponse;
 import com.example.demo.model.entity.Student;
 import com.example.demo.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +44,40 @@ public class StudentController {
                 .build();
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<Student>> insertStudent(@RequestBody @Valid StudentRequest studentRequest) {
+        Student student = studentService.insertStudent(studentRequest);
+
+        ApiResponse<Student> response = ApiResponse.<Student>builder()
+                .message("Student has been added successfully!")
+                .payload(student)
+                .status(HttpStatus.CREATED)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PutMapping("/{student-id}")
+    public ResponseEntity<ApiResponse<Student>> insertStudent(@PathVariable("student-id") Integer studentId, @RequestBody @Valid StudentRequest studentRequest) {
+        Student student = studentService.updateStudent(studentId, studentRequest);
+
+        if (student != null) {
+            ApiResponse<Student> response = ApiResponse.<Student>builder()
+                    .message("Student has been updated successfully!")
+                    .payload(student)
+                    .status(HttpStatus.OK)
+                    .build();
+            return ResponseEntity.ok(response);
+        }
+
+        ApiResponse<Student> response = ApiResponse.<Student>builder()
+                .message("Student with ID " + studentId + " not found!")
+                .payload(null)
+                .status(HttpStatus.NOT_FOUND)
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @DeleteMapping("/{student-id}")

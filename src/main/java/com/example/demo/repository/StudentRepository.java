@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.model.dto.request.StudentRequest;
 import com.example.demo.model.entity.Student;
 import org.apache.ibatis.annotations.*;
 
@@ -29,6 +30,25 @@ public interface StudentRepository {
             """)
     @ResultMap("studentMapping")
     Student findStudentById(Integer id);
+
+
+    @Select("""
+            INSERT INTO students(student_name, email, phone_number)
+            VALUES (#{student.studentName}, #{student.email}, #{student.phoneNumber})
+            RETURNING student_id
+            """)
+    Integer insertStudent(@Param("student") StudentRequest studentRequest);
+
+
+    @Select("""
+            UPDATE students
+            SET student_name = #{student.studentName},
+                email = #{student.email},
+                phone_number = #{student.phoneNumber}
+            WHERE student_id = #{id}
+            RETURNING student_id
+            """)
+    Integer updateStudent(Integer id, @Param("student") StudentRequest studentRequest);
 
 
     @Select("""
