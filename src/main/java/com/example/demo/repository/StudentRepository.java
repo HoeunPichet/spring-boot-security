@@ -29,4 +29,13 @@ public interface StudentRepository {
             """)
     @ResultMap("studentMapping")
     Student findStudentById(Integer id);
+
+
+    @Select("""
+            DELETE FROM students
+            WHERE student_id = #{id}
+            RETURNING *
+            """)
+    @ResultMap("studentMapping")
+    Student deleteStudentById(Integer id);
 }

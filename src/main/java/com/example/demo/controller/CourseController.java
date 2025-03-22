@@ -84,7 +84,7 @@ public class CourseController {
 
         if (course != null) {
             ApiResponse<Course> response = ApiResponse.<Course>builder()
-                    .message("Course has been deleted successfully!")
+                    .message("Course ID " + courseId + " has been deleted successfully!")
                     .payload(course)
                     .status(HttpStatus.OK)
                     .build();

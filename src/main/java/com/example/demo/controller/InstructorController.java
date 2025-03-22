@@ -80,7 +80,7 @@ public class InstructorController {
         Instructor instructor = instructorService.deleteInstructorById(instructorId);
         if (instructor != null) {
             ApiResponse<Instructor> response = ApiResponse.<Instructor>builder()
-                    .message("Instructor has been removed successfully!")
+                    .message("Instructor ID " + instructorId + " has been deleted successfully!")
                     .payload(instructor)
                     .status(HttpStatus.CREATED)
                     .build();
