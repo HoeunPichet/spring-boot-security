@@ -1,5 +1,6 @@
 package com.example.demo.service.implementation;
 
+import com.example.demo.exception.GlobalNotFoundException;
 import com.example.demo.model.dto.request.StudentRequest;
 import com.example.demo.model.entity.Student;
 import com.example.demo.repository.StudentCourseRepository;
@@ -24,8 +25,14 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public Student findStudentById(Integer id) {
-        return studentRepository.findStudentById(id);
+    public Student findStudentById(Integer studentId) {
+        Student student = studentRepository.findStudentById(studentId);
+
+        if (student == null) {
+            throw new GlobalNotFoundException("Student with ID " + studentId + " not found!");
+        }
+
+        return student;
     }
 
     @Override
@@ -42,6 +49,10 @@ public class StudentServiceImp implements StudentService {
     public Student updateStudent(Integer studentId, StudentRequest studentRequest) {
         Integer updatedStudentId = studentRepository.updateStudent(studentId, studentRequest);
 
+        if (updatedStudentId == null) {
+            throw new GlobalNotFoundException("Student with ID " + studentId + " not found!");
+        }
+
         studentCourseRepository.deleteStudentCourse(updatedStudentId);
         for (Integer courseId : studentRequest.getCoursesId()) {
             studentCourseRepository.insertStudentCourse(updatedStudentId, courseId);
@@ -52,6 +63,12 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     public Student deleteStudentById(Integer studentId) {
-        return studentRepository.deleteStudentById(studentId);
+        Student student = studentRepository.deleteStudentById(studentId);
+
+        if (student == null) {
+            throw new GlobalNotFoundException("Student with ID " + studentId + " not found!");
+        }
+
+        return student;
     }
 }

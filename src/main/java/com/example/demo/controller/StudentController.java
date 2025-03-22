@@ -63,41 +63,23 @@ public class StudentController {
     public ResponseEntity<ApiResponse<Student>> insertStudent(@PathVariable("student-id") Integer studentId, @RequestBody @Valid StudentRequest studentRequest) {
         Student student = studentService.updateStudent(studentId, studentRequest);
 
-        if (student != null) {
-            ApiResponse<Student> response = ApiResponse.<Student>builder()
-                    .message("Student has been updated successfully!")
-                    .payload(student)
-                    .status(HttpStatus.OK)
-                    .build();
-            return ResponseEntity.ok(response);
-        }
-
         ApiResponse<Student> response = ApiResponse.<Student>builder()
-                .message("Student with ID " + studentId + " not found!")
-                .payload(null)
-                .status(HttpStatus.NOT_FOUND)
+                .message("Student has been updated successfully!")
+                .payload(student)
+                .status(HttpStatus.OK)
                 .build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{student-id}")
     public ResponseEntity<ApiResponse<Student>> deleteStudentById(@PathVariable("student-id") Integer studentId) {
         Student student = studentService.deleteStudentById(studentId);
 
-        if (student != null) {
-            ApiResponse<Student> response = ApiResponse.<Student>builder()
-                    .message("Student ID " + studentId + " has been deleted successfully!")
-                    .payload(student)
-                    .status(HttpStatus.OK)
-                    .build();
-            return ResponseEntity.ok(response);
-        }
-
         ApiResponse<Student> response = ApiResponse.<Student>builder()
-                .message("Student with ID " + studentId + " not found!")
+                .message("Student ID " + studentId + " has been deleted successfully!")
                 .payload(null)
-                .status(HttpStatus.NOT_FOUND)
+                .status(HttpStatus.OK)
                 .build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return ResponseEntity.ok(response);
     }
 }
