@@ -58,40 +58,22 @@ public class InstructorController {
     @PutMapping("/{instructor-id}")
     ResponseEntity<ApiResponse<Instructor>> updateInstructor(@PathVariable("instructor-id") Integer instructorId, @RequestBody @Valid InstructorRequest instructorRequest) {
         Instructor instructor = instructorService.updateInstructor(instructorId, instructorRequest);
-        if (instructor != null) {
-            ApiResponse<Instructor> response = ApiResponse.<Instructor>builder()
-                    .message("Instructor has been updated successfully!")
-                    .payload(instructor)
-                    .status(HttpStatus.OK)
-                    .build();
-            return ResponseEntity.ok(response);
-        }
-
         ApiResponse<Instructor> response = ApiResponse.<Instructor>builder()
-                .message("Instructor with ID " + instructorId + " not found!")
-                .payload(null)
-                .status(HttpStatus.NOT_FOUND)
+                .message("Instructor has been updated successfully!")
+                .payload(instructor)
+                .status(HttpStatus.OK)
                 .build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{instructor-id}")
     ResponseEntity<ApiResponse<Instructor>> deleteInstructorById(@PathVariable("instructor-id") Integer instructorId) {
         Instructor instructor = instructorService.deleteInstructorById(instructorId);
-        if (instructor != null) {
-            ApiResponse<Instructor> response = ApiResponse.<Instructor>builder()
-                    .message("Instructor ID " + instructorId + " has been deleted successfully!")
-                    .payload(instructor)
-                    .status(HttpStatus.CREATED)
-                    .build();
-            return ResponseEntity.ok(response);
-        }
-
         ApiResponse<Instructor> response = ApiResponse.<Instructor>builder()
-                .message("Instructor with ID " + instructorId + " not found!")
+                .message("Instructor ID " + instructorId + " has been deleted successfully!")
                 .payload(null)
-                .status(HttpStatus.NOT_FOUND)
+                .status(HttpStatus.OK)
                 .build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return ResponseEntity.ok(response);
     }
 }

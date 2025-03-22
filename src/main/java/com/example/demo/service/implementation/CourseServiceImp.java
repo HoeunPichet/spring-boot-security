@@ -1,6 +1,6 @@
 package com.example.demo.service.implementation;
 
-import com.example.demo.exception.CourseException;
+import com.example.demo.exception.GlobalNotFoundException;
 import com.example.demo.model.dto.request.CourseRequest;
 import com.example.demo.model.entity.Course;
 import com.example.demo.repository.CourseRepository;
@@ -25,7 +25,7 @@ public class CourseServiceImp implements CourseService {
         Course course = courseRepository.findCourseById(courseId);
 
         if (course == null) {
-            throw new CourseException("Course with ID " + courseId + " not found!");
+            throw new GlobalNotFoundException("Course with ID " + courseId + " not found!");
         }
 
         return course;
@@ -40,7 +40,7 @@ public class CourseServiceImp implements CourseService {
     public Course updateCourse(Integer courseId, CourseRequest courseRequest) {
         Course course = courseRepository.updateCourseById(courseId, courseRequest);
         if (course == null) {
-            throw new CourseException("Course with ID " + courseId + " not found!");
+            throw new GlobalNotFoundException("Course with ID " + courseId + " not found!");
         }
 
         return course;
@@ -50,7 +50,7 @@ public class CourseServiceImp implements CourseService {
     public Course deleteCourseById(Integer courseId) {
         Course course = courseRepository.deleteCourseById(courseId);
         if (course == null) {
-            throw new CourseException("Course with ID " + courseId + " not found!");
+            throw new GlobalNotFoundException("Course with ID " + courseId + " not found!");
         }
 
         return course;
